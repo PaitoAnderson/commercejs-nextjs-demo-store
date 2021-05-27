@@ -13,8 +13,8 @@ class CartItem extends Component {
   /**
    * Update cart item
    */
-  handleUpdateCartItem(lineItem, quantity) {
-    this.props.dispatch(updateCartItem(lineItem, quantity));
+  handleUpdateCartItem(lineItem, productId, quantity) {
+    this.props.dispatch(updateCartItem(lineItem, productId, quantity));
   }
 
   /**
@@ -50,11 +50,11 @@ class CartItem extends Component {
             </div>
             <div className="d-flex align-items-center justify-content-between pt-2 pb-4">
               <div className="d-flex align-items-center">
-                <button className="p-0 bg-transparent" onClick={() => item.quantity > 1 ? this.handleUpdateCartItem(item.id, item.quantity -1) : this.handleRemoveFromCart(item.id)}>
+                <button className="p-0 bg-transparent" onClick={() => item.quantity > 1 ? this.handleUpdateCartItem(item.id, item.product_id, item.quantity -1) : this.handleRemoveFromCart(item.id)}>
                   <img src="/icon/minus.svg" className="w-16" title="Minus icon" alt="" />
                 </button>
                 <p className="text-center px-3">{item.quantity}</p>
-                <button className="p-0 bg-transparent" onClick={() => this.handleUpdateCartItem(item.id, item.quantity +1)} >
+                <button className="p-0 bg-transparent" onClick={() => this.handleUpdateCartItem(item.id, item.product_id, item.quantity +1)} >
                   <img src="/icon/plus.svg" className="w-16" title="Plus icon" alt=""/>
                 </button>
               </div>

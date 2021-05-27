@@ -94,9 +94,22 @@ export const updateCartItemError = (error) => {
 /**
  * Async update cart item
  */
-export const updateCartItem = (lineItemId, quantity) => (dispatch) => commerce.cart.update(lineItemId, { quantity })
-  .then(item => dispatch(updateCartItemSuccess(item)))
-  .catch(error => dispatch(updateCartItemError(error)));
+export const updateCartItem = (lineItemId, productId, quantity) => async (dispatch) => {
+
+  if (quantity > 1) {
+    const hasStock = await commerce.cart.checkQuantity(productId, quantity);
+    if (!hasStock) {
+      return dispatch(updateCartItemError('Out Of stock!'));
+    }
+  }
+
+  try {
+    const item = await commerce.cart.update(lineItemId, { quantity });
+    return dispatch(updateCartItemSuccess(item));
+  } catch (error) {
+    return dispatch(updateCartItemError(error));
+  }
+}
 
 /**
  * Handle remove cart item success and update store
