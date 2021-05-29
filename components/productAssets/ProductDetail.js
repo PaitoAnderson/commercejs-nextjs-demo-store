@@ -110,8 +110,11 @@ class ProductDetail extends Component {
    */
   handleAddToCart() {
     const { product } = this.props
-    const { selectedOptions } = this.state;
-    this.props.dispatch(addToCart(product.id, 1, selectedOptions))
+    var inCartCount = this.props.cart.line_items.find(x => x.product_id === product.id)?.quantity ?? 0;
+    if (!product.inventory || !product.inventory.managed || inCartCount < product.inventory.available) {
+      const { selectedOptions } = this.state;
+      this.props.dispatch(addToCart(product.id, 1, selectedOptions));
+    }
   }
 
   render() {
